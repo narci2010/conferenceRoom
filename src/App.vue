@@ -32,6 +32,9 @@ export default {
     background-color: #F6F6F6;
     font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
   }
+  *{
+    box-sizing: border-box;
+  }
   .view {
     position: absolute;
     width: 100%;
