@@ -1,35 +1,31 @@
 <template>
   <div class="home">
-    <DragBox>
-      <VideoBox tagTitle="me">
-        <video :src="localVideoSrc" autoplay></video>
-      </VideoBox>
-    </DragBox>
+    <div class="container content">
+      <LiveItem v-for="n in 3"></LiveItem>
+    </div>
+    <TFooter></TFooter>
   </div>
 </template>
 
 <script>
-  import DragBox from '../components/DragBox'
-  import VideoBox from '../components/VideoBox'
-  import TVideo from '../components/TVideo'
-  import webRtc from '../webRtc'
+  import LiveItem from '../components/LiveItem'
   export default {
     name: 'home',
     components: {
-      DragBox, VideoBox, TVideo
+      LiveItem
     },
     data () {
       return {
-        localVideoSrc: null
       }
     },
     mounted () {
-      webRtc.getLocalCameraStreams().then(src => {
-        this.localVideoSrc = src
-      })
     }
   }
 </script>
 
 <style lang="less" scoped>
+  .content{
+    padding-top: 30px;
+    overflow: hidden;
+  }
 </style>

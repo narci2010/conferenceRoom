@@ -6,6 +6,8 @@ import router from './router'
 import 'webrtc-adapter'
 import 'normalize.css'
 
+import TFooter from './components/TFooter'
+Vue.component(TFooter.name, TFooter)
 new Vue({
   router,
   ...App
