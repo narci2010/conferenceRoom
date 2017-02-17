@@ -14,7 +14,7 @@
       </header>
       <div class="main">
         <div class="host-video">
-          <video controls src="http://cn-zjjh3-dx-v-06.acgvideo.com/vg2/5/97/14170209-1.mp4?expires=1487268300&platform=html5&ssig=bQvfmy8L_jz11oh3ZUyGAw&oi=1919292107&nfa=BaDS8BUFZDb8iKo4Vfwarw==&dynamic=1"></video>
+          <video controls src="static/dsm.mp4"></video>
         </div>
         <div class="chat hidden-xs hidden-sm">
           <ul class="chat-list">
@@ -56,7 +56,6 @@
 
 <style lang="less" scoped>
   .room-hd {
-    margin-top: 30px;
     height: 77px;
     padding: 7px;
     margin-bottom: 10px;

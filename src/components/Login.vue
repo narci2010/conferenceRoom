@@ -17,7 +17,7 @@
             <input type="password" placeholder="请输入密码"/>
           </div>
           <div class="input">
-            <button class="sub-btn">登录</button>
+            <TButton>登录</TButton>
           </div>
         </div>
       </div>
@@ -25,6 +25,7 @@
   </transition>
 </template>
 <script>
+  import TButton from '../components/TButton'
   export default{
     name: 'Login',
     props: {
@@ -32,20 +33,39 @@
     },
     data () {
       return {
+        currentValue: this.value
       }
     },
     methods: {
       close () {
-        this.value = false
-        this.$emit('input', this.value)
+        this.currentValue = false
       }
     },
     components: {
+      TButton
+    },
+    watch: {
+      'value' (val) {
+        if (this.currentValue !== val) {
+          this.currentValue = val
+        }
+      },
+      'currentValue' (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.$emit('change', newVal)
+          this.$emit('input', newVal)
+        }
+      }
     }
   }
 </script>
 
 <style lang="less" scoped>
+  @media(max-width:768px){
+    .login-box{
+      width: 100%;
+    }
+  }
   .login{
     position: fixed;
     top: 0;
@@ -144,28 +164,6 @@
           padding-left: 35px;
           &:focus{
             border: 1px solid #BABABA;
-          }
-        }
-        >.sub-btn{
-          outline: 0;
-          width: 100%;
-          height: 40px;
-          line-height: 40px;
-          color: #fff;
-          cursor: pointer;
-          display: block;
-          font-size: 16px;
-          letter-spacing: 2px;
-          text-align: center;
-          border: none;
-          background-color: #1296DB;
-          border-radius: 2px;
-          margin: 35px auto 0;
-          &:hover{
-            background-color: #5B7BDB;
-          }
-          &:active{
-            background-color: #316cdb;
           }
         }
       }

@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <THeader></THeader>
-    <transition :name="routerTransitionName">
-      <router-view class="view"></router-view>
-    </transition>
+    <TIscroll>
+      <transition :name="routerTransitionName">
+        <router-view class="view"></router-view>
+      </transition>
+    </TIscroll>
   </div>
 </template>
 
 <script>
+import TIscroll from './components/TIscroll'
 import THeader from './components/THeader'
 export default {
   name: 'app',
   components: {
-    THeader
+    THeader, TIscroll
   },
   data () {
     return {
@@ -71,6 +74,65 @@ export default {
   .fade-enter, .fade-leave-active {
     opacity: 0
   }
+  .fade-in-linear-enter-active,
+  .fade-in-linear-leave-active {
+    transition: opacity 200ms linear;
+  }
+  .fade-in-linear-enter,
+  .fade-in-linear-leave,
+  .fade-in-linear-leave-active {
+    opacity: 0;
+  }
+
+  .el-fade-in-enter-active,
+  .el-fade-in-leave-active {
+    transition: all .3s cubic-bezier(.55,0,.1,1);
+  }
+  .el-fade-in-enter,
+  .el-fade-in-leave-active {
+    opacity: 0;
+  }
+
+  .el-zoom-in-center-enter-active,
+  .el-zoom-in-center-leave-active {
+    transition: all .3s cubic-bezier(.55,0,.1,1);
+  }
+  .el-zoom-in-center-enter,
+  .el-zoom-in-center-leave-active {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .el-zoom-in-top-enter-active,
+  .el-zoom-in-top-leave-active {
+    opacity: 1;
+    transform: scaleY(1);
+    transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms, opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms;
+    transform-origin: center top;
+  }
+  .el-zoom-in-top-enter,
+  .el-zoom-in-top-leave-active {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+
+  .el-zoom-in-bottom-enter-active,
+  .el-zoom-in-bottom-leave-active {
+    opacity: 1;
+    transform: scaleY(1);
+    transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms, opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) 100ms;
+    transform-origin: center bottom;
+  }
+  .el-zoom-in-bottom-enter,
+  .el-zoom-in-bottom-leave-active {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+
+  .collapse-transition {
+      transition: 0.3s height ease-in-out, 0.3s padding-top ease-in-out, 0.3s padding-bottom ease-in-out;
+  }
+
   /*栅格系统*/
   .col-xs-1,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8,.col-xs-9,.col-xs-10,.col-xs-11,.col-xs-12,
   .col-sm-1,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-sm-10,.col-sm-11,.col-sm-12,

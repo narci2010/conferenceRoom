@@ -5,6 +5,7 @@ Vue.use(Router)
 
 import Home from '../views/Home'
 import Room from '../views/Room'
+import CreateRoom from '../views/CreateRoom'
 
 export default new Router({
   scrollBehavior: () => ({ y: 0 }),
@@ -18,6 +19,11 @@ export default new Router({
       path: '/room',
       name: 'room',
       component: Room
+    },
+    {
+      path: '/create-room',
+      name: 'createRoom',
+      component: CreateRoom
     },
     {
       path: '*',
