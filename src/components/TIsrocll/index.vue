@@ -11,35 +11,32 @@
 <script>
   import IScroll from 'iscroll'
   export default {
-    name: 'tIScroll',
+    name: 'TIScroll',
     data () {
       return {
-        tScroll: null
       }
     },
     components: {
     },
-    watch: {
-      '$route' (to, from) {
-        setTimeout(() => {
-          this.modifyHeight()
-          this.tScroll.refresh()
-        }, 600)
-      }
-    },
     mounted () {
-      this.$nextTick(() => {
-        this.modifyHeight()
-        this.tScroll = new IScroll('#t-iscroll-wrapper', {
-          mouseWheel: true,
-          scrollbars: true,
-          fade: true
-        })
+      window.iScroll = new IScroll('#t-iscroll-wrapper', {
+        mouseWheel: true,
+        scrollbars: true,
+        fade: true
       })
+      this.modifyHeight()
+    },
+    beforeRouteLeave (to, from, next) {
+      window.iScroll.scrollTo(0, 0)
+      next()
     },
     methods: {
       modifyHeight () {
-        document.querySelector('#t-iscroll-wrapper>div').style.height = document.querySelector('.view').clientHeight + 'px'
+        let div = document.querySelector('#t-iscroll-wrapper>div')
+        if (div) {
+          div.style.height = document.querySelector('.view').clientHeight + 'px'
+          window.iScroll.refresh()
+        }
       }
     }
   }

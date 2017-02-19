@@ -1,21 +1,20 @@
 <template>
   <div id="app">
     <THeader></THeader>
-    <TIscroll>
-      <transition :name="routerTransitionName">
+    <TIScroll>
+      <transition v-on:after-leave="$afterRouteLeave" :name="routerTransitionName">
         <router-view class="view"></router-view>
       </transition>
-    </TIscroll>
+    </TIScroll>
   </div>
 </template>
 
 <script>
-import TIscroll from './components/TIscroll'
 import THeader from './components/THeader'
 export default {
   name: 'app',
   components: {
-    THeader, TIscroll
+    THeader
   },
   data () {
     return {
