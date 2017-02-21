@@ -344,11 +344,11 @@ export default {
   }
   @font-face {
     font-family: 'iconfont';  /* project id 233303 */
-    src: url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.eot');
-    src: url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.woff') format('woff'),
-    url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.eot');
+    src: url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.woff') format('woff'),
+    url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.svg#iconfont') format('svg');
   }
   .iconfont {
     font-family:"iconfont" !important;
@@ -367,5 +367,6 @@ export default {
   .icon-pwd:before {content: "\e610";}
   .icon-down:before {content: "\e622";}
   .icon-triangle:before {content: "\e609";}
-
+  .icon-user-list:before {content: "\e632";}
+  .icon-chat:before {content: "\e635";}
 </style>

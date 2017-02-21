@@ -17,13 +17,25 @@
           <video controls src="static/dsm.mp4"></video>
         </div>
         <div class="chat hidden-xs hidden-sm">
-          <ul class="chat-list">
-            <li>啦啦啦</li>
-          </ul>
-          <div class="ctrl-panel">
-            <SendBox placeholder="请输入弹幕DA☆ZE～"></SendBox>
+          <header>
+            <span :class="{'active': !sideIsChat}" @click="sideIsChat = false"><i class="iconfont icon-user-list"></i>用户</span>
+            <span :class="{'active': sideIsChat}" @click="sideIsChat = true"><i class="iconfont icon-chat"></i>聊天</span>
+          </header>
+          <div v-if="sideIsChat" class="chat-box">
+            <ul class="chat-list">
+              <li>啦啦啦</li>
+            </ul>
+            <div class="ctrl-panel">
+              <SendBox placeholder="请输入弹幕DA☆ZE～"></SendBox>
+            </div>
+          </div>
+          <div v-else class="user-list-box">
+
           </div>
         </div>
+      </div>
+      <div class="notice">
+        我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单
       </div>
     </div>
     <TFooter></TFooter>
@@ -35,15 +47,17 @@
   import VideoBox from '../components/VideoBox'
   import TVideo from '../components/TVideo'
   import SendBox from '../components/SendBox'
+  import Panel from '../components/Panel'
   // import webRtc from '../webRtc'
   export default {
     name: 'room',
     components: {
-      DragBox, VideoBox, TVideo, SendBox
+      DragBox, VideoBox, TVideo, SendBox, Panel
     },
     data () {
       return {
-        localVideoSrc: null
+        localVideoSrc: null,
+        sideIsChat: true
       }
     },
     mounted () {
@@ -117,30 +131,74 @@
       border: 1px solid #ececec;
       border-top: 0;
       background-color: #fbfbfb;
-      padding-bottom: 91px;
-      .chat-list{
-        overflow-x: hidden;
-        overflow-y: scroll;
-        height: 100%;
-        padding: 10px;
-        margin: 0;
+      display: flex;
+      flex-direction: column;
+      >header{
+        >span{
+          background-color: #E8E8E8;
+          font-size: 14px;
+          cursor: pointer;
+          width: 50%;
+          float: left;
+          text-align: center;
+          line-height: 40px;
+          .iconfont{
+            font-size: 14px;
+            margin-right: 10px;
+          }
+          &:hover{
+            color: #1497DB
+          }
+          &.active{
+            background-color: #fff;
+            color: #1497DB
+          }
+        }
       }
-      .ctrl-panel{
-        width: 100%;
-        padding: 10px 10px 5px 10px;
+      .user-list-box{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
         background-color: #fff;
-        border-top: 1px solid #ddd;
+      }
+      .chat-box{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        .chat-list{
+          padding: 10px;
+          flex: 1;
+          margin: 0;
+        }
+        .ctrl-panel{
+          width: 100%;
+          padding: 10px 10px 5px 10px;
+          background-color: #fff;
+          border-top: 1px solid #ddd;
+        }
       }
     }
   }
+  .notice{
+    background-color: #fff;
+    margin-top: 20px;
+    padding: 15px;
+    font-size: 14px;
+    white-space: pre-wrap;
+    color: #6d757a;
+    line-height: 25px;
+    word-wrap: break-word;
+  }
   @media (min-width: 1201px){
-    .chat {
+    .chat{
       width: 300px!important;
     }
   }
   @media (min-width: 1001px) and (max-width: 1200px){
-    .chat {
+    .chat{
       width: 250px!important;
     }
   }
 </style>
+
