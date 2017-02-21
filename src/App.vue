@@ -53,6 +53,7 @@ export default {
     box-sizing: border-box;
   }
   .view {
+    top: 30px;
     position: absolute;
     width: 100%;
     transition: all .5s cubic-bezier(.55,0,.1,1);
@@ -343,11 +344,11 @@ export default {
   }
   @font-face {
     font-family: 'iconfont';  /* project id 233303 */
-    src: url('//at.alicdn.com/t/font_71lhfejy09j54s4i.eot');
-    src: url('//at.alicdn.com/t/font_71lhfejy09j54s4i.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_71lhfejy09j54s4i.woff') format('woff'),
-    url('//at.alicdn.com/t/font_71lhfejy09j54s4i.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_71lhfejy09j54s4i.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.eot');
+    src: url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.woff') format('woff'),
+    url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_2c8k1fds3vkotj4i.svg#iconfont') format('svg');
   }
   .iconfont {
     font-family:"iconfont" !important;
@@ -364,4 +365,7 @@ export default {
   .icon-time:before {content: "\e614";}
   .icon-close:before {content: "\e63d";}
   .icon-pwd:before {content: "\e610";}
+  .icon-down:before {content: "\e622";}
+  .icon-triangle:before {content: "\e609";}
+
 </style>

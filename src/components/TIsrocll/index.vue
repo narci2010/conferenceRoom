@@ -34,7 +34,7 @@
       modifyHeight () {
         let div = document.querySelector('#t-iscroll-wrapper>div')
         if (div) {
-          div.style.height = document.querySelector('.view').clientHeight + 'px'
+          div.style.height = document.querySelector('.view').clientHeight + 40 + 'px'
           window.iScroll.refresh()
         }
       }
@@ -45,7 +45,7 @@
 <style scoped lang="less">
   #t-iscroll-wrapper{
     position: fixed;
-    top: 80px;
+    top: 50px;
     left: 0;
     right: 0;
     bottom: 0;

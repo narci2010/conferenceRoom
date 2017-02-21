@@ -1,6 +1,6 @@
 <template>
   <div class="t-header">
-    <Login v-model="showLogin"></Login>
+    <Login v-model="showLogin" @logged_in="loggedIn"></Login>
     <header>
       <div class="container content">
         <a href="#/home" class="logo"><img src="../assets/logo.png"><span>视频会议室</span></a>
@@ -11,14 +11,15 @@
         <span class="right">
           <div class="start">
             <i class="iconfont icon-kaibo"></i>
-            <a class="" href="#" target="_blank">开播</a>
+            <router-link :to="{name: 'createRoom'}" tag="a">开会</router-link>
           </div>
-          <div class="un-login-btn">
+          <div class="un-login-btn" v-if="me == null">
             <i class="iconfont icon-user"></i>
             <a class="clickstat" href="javascript:;" @click="showLogin = true">登录</a>
             <i class="cut">|</i>
             <a href="#">注册</a>
           </div>
+          <UserInfo @log_out="logOut" :info="me" v-else></UserInfo>
         </span>
       </div>
     </header>
@@ -27,15 +28,33 @@
 
 <script>
   import Login from './Login'
+  import api from '../api'
+  import UserInfo from './UserInfo'
   export default {
     name: 'THeader',
     data () {
       return {
-        showLogin: false
+        showLogin: false,
+        me: null
       }
     },
     components: {
-      Login
+      Login, UserInfo
+    },
+    mounted () {
+      if (api.loggedIn()) {
+        api.getMe().then(res => {
+          this.loggedIn(res.data.data)
+        })
+      }
+    },
+    methods: {
+      loggedIn (me) {
+        this.me = me
+      },
+      logOut () {
+        this.me = null
+      }
     }
   }
 </script>
@@ -57,7 +76,6 @@
         position: relative;
         padding-left: 150px;
         height: 100%;
-        overflow: hidden;
         .logo{
           text-decoration: none;
           height: 36px;
@@ -119,6 +137,9 @@
           >div{
             float: left;
             margin-left: 10px;
+            &.start{
+              margin-right: 15px;
+            }
             .iconfont{
               margin-right: 2px;
               font-size: 20px;

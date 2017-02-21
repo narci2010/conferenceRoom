@@ -5,7 +5,7 @@
         <div class="mask">
           <i class="iconfont icon-play"></i>
         </div>
-        <img src="http://i0.hdslb.com/bfs/archive/b7a41334ce6760373de3d5d04451e92c5cbe4746.jpg" />
+        <img :src="img" title="陶炜"/>
       </a>
       <footer>
         <h3><a href="#">上波分</a></h3>
@@ -21,6 +21,9 @@
 
 <script>
     export default {
+      props: {
+        img: String
+      },
       data () {
         return {
         }
@@ -91,6 +94,7 @@
     img{
       transition: transform .3s;
       width: 100%;
+      min-height: 145px;
     }
   }
   footer{

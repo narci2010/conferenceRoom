@@ -10,14 +10,14 @@
         <div class="body">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <input type="text" placeholder="请输入用户名"/>
+            <input v-model="name" type="text" placeholder="请输入用户名"/>
           </div>
           <div class="input">
             <i class="iconfont icon-pwd"></i>
-            <input type="password" placeholder="请输入密码"/>
+            <input v-model="password" @keydown.enter="login" type="password" placeholder="请输入密码"/>
           </div>
           <div class="input">
-            <TButton>登录</TButton>
+            <TButton @click.native="login">登录</TButton>
           </div>
         </div>
       </div>
@@ -26,6 +26,7 @@
 </template>
 <script>
   import TButton from '../components/TButton'
+  import api from '../api'
   export default{
     name: 'Login',
     props: {
@@ -33,12 +34,22 @@
     },
     data () {
       return {
-        currentValue: this.value
+        currentValue: this.value,
+        name: '',
+        password: ''
       }
     },
     methods: {
       close () {
         this.currentValue = false
+      },
+      login () {
+        api.login(this.name, this.password).then(res => {
+          api.getMe().then(res => {
+            this.currentValue = false
+            this.$emit('logged_in', res.data.data)
+          })
+        })
       }
     },
     components: {
