@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <nprogress-container></nprogress-container>
     <THeader></THeader>
     <TIScroll>
       <transition v-on:after-leave="$afterRouteLeave" :name="routerTransitionName">
@@ -11,10 +12,11 @@
 
 <script>
 import THeader from './components/THeader'
+import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 export default {
   name: 'app',
   components: {
-    THeader
+    THeader, NprogressContainer
   },
   data () {
     return {
@@ -50,7 +52,18 @@ export default {
     font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
   }
   *{
+    user-select: initial!important;
     box-sizing: border-box;
+  }
+  .nprogress-container{
+    position: fixed!important;
+    width: 100%;
+    z-index: 9999;
+    top: 0;
+    height: 2px;
+  }
+  .nprogress-container #nprogress .spinner{
+    position: fixed!important;
   }
   .view {
     top: 30px;
@@ -205,13 +218,13 @@ export default {
 
   /*响应式工具--hidden*/
   @media (min-width: 1001px){
-    .hidden-md{display:none;}
+    .hidden-md{display:none!important;}
   }
   @media(min-width:768px) and (max-width: 1000px){
-    .hidden-sm{display:none;}
+    .hidden-sm{display:none!important;}
   }
   @media(max-width:768px){
-    .hidden-xs{display:none;}
+    .hidden-xs{display:none!important;}
   }
   /*响应式工具--visible*/
   @media (min-width: 1001px){

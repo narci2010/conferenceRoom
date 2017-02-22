@@ -2,7 +2,7 @@
   <transition name="fade">
     <div class="login" v-if="value">
       <div class="mask"></div>
-      <div class="login-box">
+      <div v-loading="loading" class="login-box">
         <div class="login-hd">
           <div class="close" @click="close"><i class="iconfont icon-close"></i></div>
           <h3>登录</h3>
@@ -36,7 +36,8 @@
       return {
         currentValue: this.value,
         name: '',
-        password: ''
+        password: '',
+        loading: false
       }
     },
     methods: {
@@ -44,11 +45,15 @@
         this.currentValue = false
       },
       login () {
+        this.loading = true
         api.login(this.name, this.password).then(res => {
+          this.loading = false
           api.getMe().then(res => {
             this.currentValue = false
             this.$emit('logged_in', res.data.data)
           })
+        }, res => {
+          this.loading = false
         })
       }
     },
