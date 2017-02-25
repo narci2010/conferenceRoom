@@ -5,6 +5,7 @@ Vue.use(Router)
 
 import Home from '../views/Home'
 import Room from '../views/Room'
+import Host from '../views/Host'
 import CreateRoom from '../views/CreateRoom'
 
 export default new Router({
@@ -24,6 +25,11 @@ export default new Router({
       path: '/create-room',
       name: 'createRoom',
       component: CreateRoom
+    },
+    {
+      path: '/host',
+      name: 'host',
+      component: Host
     },
     {
       path: '*',

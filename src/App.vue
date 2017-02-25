@@ -3,7 +3,7 @@
     <nprogress-container></nprogress-container>
     <THeader></THeader>
     <TIScroll>
-      <transition v-on:after-leave="$afterRouteLeave" :name="routerTransitionName">
+      <transition v-on:after-leave="$updataIscroll" :name="routerTransitionName">
         <router-view class="view"></router-view>
       </transition>
     </TIScroll>
@@ -50,6 +50,9 @@ export default {
     overflow-x: hidden;
     background-color: #F7F7F7;
     font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
+  }
+  ul,li {
+    list-style: none;
   }
   *{
     user-select: initial!important;
@@ -357,11 +360,11 @@ export default {
   }
   @font-face {
     font-family: 'iconfont';  /* project id 233303 */
-    src: url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.eot');
-    src: url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.woff') format('woff'),
-    url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_mbs9v05tiwo2yb9.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_ngukuepd9e50o1or.eot');
+    src: url('//at.alicdn.com/t/font_ngukuepd9e50o1or.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_ngukuepd9e50o1or.woff') format('woff'),
+    url('//at.alicdn.com/t/font_ngukuepd9e50o1or.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_ngukuepd9e50o1or.svg#iconfont') format('svg');
   }
   .iconfont {
     font-family:"iconfont" !important;
@@ -375,6 +378,7 @@ export default {
   .icon-kaibo:before { content: "\e740"; }
   .icon-user:before { content: "\e625"; }
   .icon-play:before {content: "\e646";}
+  .icon-pause:before {content: "\e601";}
   .icon-time:before {content: "\e614";}
   .icon-close:before {content: "\e63d";}
   .icon-pwd:before {content: "\e610";}

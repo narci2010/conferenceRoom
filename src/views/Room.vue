@@ -14,7 +14,7 @@
       </header>
       <div class="main">
         <div class="host-video">
-          <video controls src="static/dsm.mp4"></video>
+          <TVideo src="static/dsm.mp4"></TVideo>
         </div>
         <div class="chat hidden-xs hidden-sm">
           <header>
@@ -117,13 +117,9 @@
     display: flex;
     margin-bottom: 20px;
     .host-video{
+      height: 500px;
       flex-direction: row;
       flex: 1;
-      video{
-        width: 100%;
-        height: 500px;
-        background-color: #000;
-      }
     }
     .chat{
       width: 300px;

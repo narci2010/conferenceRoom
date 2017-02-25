@@ -13,7 +13,9 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "element-theme-default": "^1.2.0",
+    "element-loading": "^1.0.0",
+    "element-theme-default": "<1.1.0",
+    "element-upload": "^1.0.0",
     "iscroll": "^5.2.0",
     "normalize.css": "^5.0.0",
     "socket.io-client": "^1.7.2",
@@ -39,8 +41,6 @@
     "connect-history-api-fallback": "^1.1.0",
     "cross-spawn": "^4.0.2",
     "css-loader": "^0.25.0",
-    "element-loading": "^1.0.0",
-    "element-upload": "^1.0.0",
     "eslint": "^3.7.1",
     "eslint-config-standard": "^6.1.0",
     "eslint-friendly-formatter": "^2.0.5",

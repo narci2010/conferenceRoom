@@ -4,7 +4,7 @@ Vue.use(VueResource)
 Vue.http.options.root = 'http://123.207.27.38/api'
 Vue.http.options.emulateJSON = true
 
-export default {
+let api = {
   // 登录
   login (name, password) {
     return ajax('auth/login', 'post', {
@@ -56,9 +56,36 @@ export default {
   },
   loggedIn () {
     return !!window.localStorage.token
+  },
+  // 创建房间
+  createRoom (room) {
+    let temp = {...room}
+    temp.is_custom_cover = temp.is_custom_cover ? '1' : '0'
+    temp.need_password = temp.need_password ? '1' : '0'
+    return ajax('rooms', 'post', {
+      body: {
+        ...temp
+      },
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
+        }
+      }
+    })
+  },
+  // 获取房间列表
+  getRooms (status) {
+    return ajax('rooms', 'get', {
+      options: {
+        params: {
+          status
+        }
+      }
+    })
   }
 }
-
+Vue.prototype.$getToken = api.getToken
+export default api
 /**
  ajax 请求
  @param url

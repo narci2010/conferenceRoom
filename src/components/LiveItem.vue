@@ -5,14 +5,14 @@
         <div class="mask">
           <i class="iconfont icon-play"></i>
         </div>
-        <img :src="img" title="陶炜"/>
+        <img :src="room.cover" title="陶炜"/>
       </a>
       <footer>
-        <h3><a href="#">上波分</a></h3>
+        <h3><a href="#" :title="room.title">{{room.title}}</a></h3>
         <a href="#" title="陶炜"><img src="http://huyaimg.dwstatic.com/avatar/1066/d4/f68beb916be20b990b58c0e35d1506_180_135.jpg">陶炜</a>
         <span>
-          <span class="p-num" title="在线人数：102人"><i class="iconfont icon-user"></i>102</span>
-          <span class="state" title="已开始：102分钟"><i class="iconfont icon-time"></i>100分钟</span>
+          <span class="p-num" :title="'在线人数：' + room.online_number + '人'"><i class="iconfont icon-user"></i>{{room.online_number}}</span>
+          <span class="state"><i class="iconfont icon-time"></i>{{room.last_open_time | startedTime}}</span>
         </span>
       </footer>
     </div>
@@ -22,7 +22,7 @@
 <script>
     export default {
       props: {
-        img: String
+        room: Object
       },
       data () {
         return {
@@ -107,6 +107,7 @@
       padding: 0 20px 0 5px;
       font-size: 16px;
       line-height: 20px;
+      overflow: hidden;
       >a{
         white-space: nowrap;
         text-overflow: ellipsis;

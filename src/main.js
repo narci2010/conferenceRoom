@@ -9,8 +9,8 @@ import 'normalize.css'
 import NProgress from 'vue-nprogress'
 Vue.use(NProgress)
 
-import ElLoading from 'element-loading'
 import 'element-theme-default/lib/loading.css'
+import ElLoading from 'element-loading'
 Vue.use(ElLoading)
 
 /* Using these kinds of IScroll class for different cases. */
@@ -18,13 +18,20 @@ Vue.use(ElLoading)
 import TFooter from './components/TFooter'
 Vue.component(TFooter.name, TFooter)
 
-import ElUpload from 'element-upload'
 import 'element-theme-default/lib/upload.css'
+import ElUpload from 'element-upload'
 import 'element-theme-default/lib/icon.css'
-Vue.component('el-upload', ElUpload)
+Vue.use(ElUpload)
 
 import TIsroll from './components/TIsrocll'
 Vue.use(TIsroll)
+
+import * as filters from './filters.js'
+
+// register global utility filters.
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 const nprogress = new NProgress({ parent: '.nprogress-container' })
 new Vue({

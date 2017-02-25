@@ -1,7 +1,12 @@
 <template>
   <div class="tvideo">
-    <video :src="src" autoplay @volumechange="volume = $event.volume"></video>
-    <div class="volume-bar"></div>
+    <video ref="video" :src="src"></video>
+    <div class="control">
+      <div class="control-btn">
+        <i @click="isPause = true" v-if="!isPause" title="暂停" class="iconfont icon-pause"></i>
+        <i @click="isPause = false" v-else title="播放" class="iconfont icon-play"></i>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -13,10 +18,22 @@
     },
     data () {
       return {
-        volume: 0
+        isPause: false,
+        video: null
+      }
+    },
+    watch: {
+      'isPause' () {
+        if (this.isPause) {
+          this.video.pause()
+        } else {
+          this.video.play()
+        }
       }
     },
     mounted () {
+      this.video = this.$refs['video']
+      // this.video.play()
     },
     methods: {
     }
@@ -24,5 +41,36 @@
 </script>
 
 <style scoped lang="less">
-
+  .tvideo, video{
+    background-color: #333;
+    width: 100%;
+    height: 100%;
+  }
+  .tvideo{
+    display: flex;
+    flex-direction: column;
+    .control{
+      border: 1px solid #ececec;
+      border-right: none;
+      height: 40px;
+      background-color: #FFF;
+      position: relative;
+      .control-btn{
+        position: absolute;
+        top: 8px;
+        left: 10px;
+        cursor: pointer;
+        color: #A0A0AB;
+        i{
+          position: absolute;
+          font-size: 22px;
+          &.icon-play{
+            font-size: 18px;
+            top: 3px;
+            left: 2px;
+          }
+        }
+      }
+    }
+  }
 </style>
