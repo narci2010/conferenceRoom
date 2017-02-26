@@ -31,9 +31,11 @@
     mounted () {
       api.getRooms(1).then(res => {
         this.startRooms = res.data.data
+        this.$updataIscroll()
       })
       api.getRooms(0).then(res => {
         this.closeRooms = res.data.data
+        this.$updataIscroll()
       })
     }
   }

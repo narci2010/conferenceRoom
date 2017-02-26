@@ -58,6 +58,9 @@ export default {
     user-select: initial!important;
     box-sizing: border-box;
   }
+  video{
+    transform: scaleX(-1);
+  }
   .nprogress-container{
     position: fixed!important;
     width: 100%;

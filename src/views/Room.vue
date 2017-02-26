@@ -14,7 +14,7 @@
       </header>
       <div class="main">
         <div class="host-video">
-          <TVideo src="static/dsm.mp4"></TVideo>
+          <TVideo :src="localVideoSrc"></TVideo>
         </div>
         <div class="chat hidden-xs hidden-sm">
           <header>
@@ -48,7 +48,7 @@
   import TVideo from '../components/TVideo'
   import SendBox from '../components/SendBox'
   import Panel from '../components/Panel'
-  // import webRtc from '../webRtc'
+  import webRtc from '../webRtc'
   export default {
     name: 'room',
     components: {
@@ -61,9 +61,9 @@
       }
     },
     mounted () {
-      // webRtc.getLocalCameraStreams().then(src => {
-        // this.localVideoSrc = src
-      // })
+      webRtc.getLocalCameraStreams().then(src => {
+        this.localVideoSrc = src
+      })
     }
   }
 </script>

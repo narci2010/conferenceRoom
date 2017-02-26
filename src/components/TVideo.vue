@@ -33,7 +33,7 @@
     },
     mounted () {
       this.video = this.$refs['video']
-      // this.video.play()
+      this.video.play()
     },
     methods: {
     }
@@ -47,14 +47,17 @@
     height: 100%;
   }
   .tvideo{
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    padding-bottom: 40px;
     .control{
       border: 1px solid #ececec;
       border-right: none;
       height: 40px;
       background-color: #FFF;
-      position: relative;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      z-index: 12;
       .control-btn{
         position: absolute;
         top: 8px;
