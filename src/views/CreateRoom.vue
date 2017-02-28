@@ -22,7 +22,7 @@
                 :headers="{
                   Authorization: 'Bearer ' + $getToken()
                 }"
-                action="http://123.207.27.38/api/ajax_upload_picture"
+                :action="$http.options.root + '/ajax_upload_picture'"
                 type="drag"
                 :thumbnail-mode="true"
                 :on-preview="handlePreview"

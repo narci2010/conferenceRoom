@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
-Vue.http.options.root = 'http://123.207.27.38/api'
+Vue.http.options.root = 'http://192.168.1.102:8080/api'
 Vue.http.options.emulateJSON = true
 
 let api = {

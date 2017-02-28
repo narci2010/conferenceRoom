@@ -49,6 +49,8 @@
   import SendBox from '../components/SendBox'
   import Panel from '../components/Panel'
   import webRtc from '../webRtc'
+  import Echo from 'laravel-echo'
+  import api from '../api'
   export default {
     name: 'room',
     components: {
@@ -64,6 +66,16 @@
       webRtc.getLocalCameraStreams().then(src => {
         this.localVideoSrc = src
       })
+      let echo = new Echo({
+        broadcaster: 'socket.io',
+        host: 'http://192.168.1.102:6001',
+        auth: {
+          headers: {
+            'Authorization': 'Bearer ' + api.getToken()
+          }
+        }
+      })
+      echo.join('aa')
     }
   }
 </script>

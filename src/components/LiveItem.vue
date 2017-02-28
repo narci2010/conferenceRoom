@@ -5,11 +5,11 @@
         <div class="mask">
           <i class="iconfont icon-play"></i>
         </div>
-        <img :src="room.cover" title="陶炜"/>
+        <img :src="room.cover.r" :title="room.title"/>
       </a>
       <footer>
         <h3><a href="#" :title="room.title">{{room.title}}</a></h3>
-        <a href="#" title="陶炜"><img src="http://huyaimg.dwstatic.com/avatar/1066/d4/f68beb916be20b990b58c0e35d1506_180_135.jpg">陶炜</a>
+        <a href="#" :title="room.user.real_name"><img :src="room.user.avatar.is">{{room.user.real_name}}</a>
         <span>
           <span class="p-num" :title="'在线人数：' + room.online_number + '人'"><i class="iconfont icon-user"></i>{{room.online_number}}</span>
           <span class="state"><i class="iconfont icon-time"></i>{{room.last_open_time | startedTime}}</span>

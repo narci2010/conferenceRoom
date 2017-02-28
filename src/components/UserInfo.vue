@@ -9,7 +9,7 @@
       <span @click="exit" title="安全退出" class="exit">退出</span>
       <i class="iconfont icon-triangle"></i>
       <div class="content">
-        <a href="#" class="face" :title="info.name"><img :src="info.avatar.b" :title="info.name"/></a>
+        <a href="#" class="face" :title="info.name"><img :src="info.avatar.l" :title="info.name"/></a>
         <p class="uname">{{info.name}}</p>
         <div class="member-menu">
           <ul>
