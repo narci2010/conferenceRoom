@@ -36,7 +36,17 @@ Object.keys(filters).forEach(key => {
 })
 import io from 'socket.io-client'
 window.io = io
-
+import Echo from 'laravel-echo'
+import api from './api'
+Vue.prototype.$echo = new Echo({
+  broadcaster: 'socket.io',
+  host: 'http://192.168.7.239:6001',
+  auth: {
+    headers: {
+      'Authorization': 'Bearer ' + api.getToken()
+    }
+  }
+})
 const nprogress = new NProgress({ parent: '.nprogress-container' })
 
 new Vue({

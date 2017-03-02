@@ -31,16 +31,19 @@
       next()
     },
     methods: {
-      modifyHeight (heiht) {
+      modifyHeight (height) {
         let div = document.querySelector('#t-iscroll-wrapper>div')
         if (div) {
-          let setHeight
-          if (typeof heiht === 'number') {
-            setHeight = heiht
-          } else {
-            setHeight = document.querySelector('.view').clientHeight + 40
+          let viewHeight, minHeiht
+          if (typeof height === 'number') {
+            minHeiht = height
           }
-          div.style.height = setHeight + 'px'
+          viewHeight = document.querySelector('.view').clientHeight + 40
+          if (minHeiht > viewHeight) {
+            div.style.height = minHeiht + 'px'
+          } else {
+            div.style.height = viewHeight + 'px'
+          }
           if (window.iScroll) {
             window.iScroll.refresh()
           }

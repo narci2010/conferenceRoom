@@ -26,7 +26,7 @@
               <li>啦啦啦</li>
             </ul>
             <div class="ctrl-panel">
-              <SendBox placeholder="请输入弹幕DA☆ZE～"></SendBox>
+              <SendBox @send="sendMsg" placeholder="请输入弹幕DA☆ZE～"></SendBox>
             </div>
           </div>
           <div v-else class="user-list-box">
@@ -49,7 +49,6 @@
   import SendBox from '../components/SendBox'
   import Panel from '../components/Panel'
   import webRtc from '../webRtc'
-  import Echo from 'laravel-echo'
   import api from '../api'
   export default {
     name: 'room',
@@ -62,20 +61,21 @@
         sideIsChat: true
       }
     },
+    methods: {
+      sendMsg (msg) {
+        api.sendMessage(this.$route.params.id, msg)
+      }
+    },
+    beforeDestroy () {
+    },
     mounted () {
       webRtc.getLocalCameraStreams().then(src => {
         this.localVideoSrc = src
       })
-      let echo = new Echo({
-        broadcaster: 'socket.io',
-        host: 'http://192.168.1.102:6001',
-        auth: {
-          headers: {
-            'Authorization': 'Bearer ' + api.getToken()
-          }
-        }
+      this.$echo.join('chat-room.1')
+      .listen('ChatMessageWasReceived', (e) => {
+        console.log(e)
       })
-      echo.join('aa')
     }
   }
 </script>

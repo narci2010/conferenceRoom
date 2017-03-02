@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
-Vue.http.options.root = 'http://192.168.1.102:8080/api'
+Vue.http.options.root = 'http://192.168.7.239:8080/api'
 Vue.http.options.emulateJSON = true
 
 let api = {
@@ -79,6 +79,19 @@ let api = {
       options: {
         params: {
           status
+        }
+      }
+    })
+  },
+  // 发送信息
+  sendMessage (roomId, msg) {
+    return ajax('room/' + roomId + '/send_message', 'post', {
+      body: {
+        msg
+      },
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
         }
       }
     })

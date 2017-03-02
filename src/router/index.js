@@ -17,7 +17,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/room',
+      path: '/room/:id',
       name: 'room',
       component: Room
     },

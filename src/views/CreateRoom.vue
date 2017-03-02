@@ -92,6 +92,7 @@
         api.createRoom(this.room).then(res => {
           this.$router.push({name: 'host'})
         }, res => {
+          console.log(res)
         })
       }
     }

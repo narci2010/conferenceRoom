@@ -1,14 +1,14 @@
 <template>
-  <div class="live-item-wapper col-xs-6 col-sm-6 col-md-4 col-lg-3">
+  <div class="live-item-wapper col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <div class="live-item">
-      <a href="#/room" class="cover">
+      <router-link class="cover" tag="a" :to="{ name: 'room', params: { id: room.id }}">
         <div class="mask">
           <i class="iconfont icon-play"></i>
         </div>
         <img :src="room.cover.r" :title="room.title"/>
-      </a>
+      </router-link>
       <footer>
-        <h3><a href="#" :title="room.title">{{room.title}}</a></h3>
+        <h3><router-link :title="room.title" tag="a" :to="{ name: 'room', params: { id: room.id }}">{{room.title}}</router-link></h3>
         <a href="#" :title="room.user.real_name"><img :src="room.user.avatar.is">{{room.user.real_name}}</a>
         <span>
           <span class="p-num" :title="'在线人数：' + room.online_number + '人'"><i class="iconfont icon-user"></i>{{room.online_number}}</span>

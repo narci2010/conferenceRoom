@@ -2,11 +2,13 @@
   <div class="host">
     <div class="video-list">
       <ul>
-        <li class="col-xs-5 col-sm-4 col-md-3 col-lg-2" v-for="n in 10"><TVideo src="/static/dsm.mp4"></TVideo></li>
+        <li class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="n in 15">
+          <TVideo src="/static/dsm.mp4"></TVideo>
+        </li>
       </ul>
     </div>
     <div class="chat-list">
-
+      asdasdasd
     </div>
   </div>
 </template>
@@ -21,6 +23,14 @@
     },
     components: {
       TVideo
+    },
+    mounted () {
+      setTimeout(() => {
+        this.$updataIscroll(window.innerHeight - 50)
+      }, 10)
+      window.onresize = () => {
+        this.$updataIscroll(window.innerHeight - 50)
+      }
     }
   }
 </script>
@@ -31,22 +41,20 @@
   right: 0;
   width: 300px;
   background-color: #fff;
-  top: 80px;
+  top: 45px;
   bottom: 0;
 }
 .video-list{
-  padding-right: 320px;
+  padding-right: 300px;
   overflow: hidden;
   ul {
-    padding-right:15px;
-    padding-left:15px;
-    margin-right:auto;
-    margin-left:auto;
     overflow: hidden;
+    padding: 0;
+    padding-left: 15px;
     li{
+      padding-right: 15px;
+      padding-bottom: 15px;
       float: left;
-      margin-right: 20px;
-      margin-bottom: 20px;
     }
   }
 }
