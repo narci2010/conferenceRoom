@@ -1,7 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-
-// Vue.prototype.$rootUrl = 'http://123.207.27.38'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -9,13 +5,12 @@ import 'webrtc-adapter'
 import 'normalize.css'
 
 import NProgress from 'vue-nprogress'
-Vue.use(NProgress)
+Vue.use(NProgress, { http: false })
 
 import 'element-theme-default/lib/loading.css'
 import ElLoading from 'element-loading'
 Vue.use(ElLoading)
 
-/* Using these kinds of IScroll class for different cases. */
 
 import TFooter from './components/TFooter'
 Vue.component(TFooter.name, TFooter)

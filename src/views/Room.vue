@@ -22,8 +22,8 @@
             <span :class="{'active': sideIsChat}" @click="sideIsChat = true"><i class="iconfont icon-chat"></i>聊天</span>
           </header>
           <div v-if="sideIsChat" class="chat-box">
-            <ul class="chat-list">
-              <li>啦啦啦</li>
+            <ul ref="cList" class="chat-list">
+              <li v-for="item in chatList"><a href="#" class="name">{{item.real_name}}：</a>{{item.message}}</li>
             </ul>
             <div class="ctrl-panel">
               <SendBox @send="sendMsg" placeholder="请输入弹幕DA☆ZE～"></SendBox>
@@ -58,7 +58,8 @@
     data () {
       return {
         localVideoSrc: null,
-        sideIsChat: true
+        sideIsChat: true,
+        chatList: []
       }
     },
     methods: {
@@ -74,7 +75,9 @@
       })
       this.$echo.join('chat-room.1')
       .listen('ChatMessageWasReceived', (e) => {
-        console.log(e)
+        this.chatList.push(e)
+        let cList = this.$refs['cList']
+        cList.scrollTop = cList.scrollHeight
       })
     }
   }
@@ -178,6 +181,15 @@
           padding: 10px;
           flex: 1;
           margin: 0;
+          overflow-y: scroll;
+          li{
+            font-size: 13px;
+            margin-bottom: 5px;
+            .name{
+              color: #1497DB;
+              text-decoration: none;
+            }
+          }
         }
         .ctrl-panel{
           width: 100%;
