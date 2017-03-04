@@ -27,7 +27,7 @@ export default new Router({
       component: CreateRoom
     },
     {
-      path: '/host',
+      path: '/host/:id',
       name: 'host',
       component: Host
     },

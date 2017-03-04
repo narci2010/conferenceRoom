@@ -33,7 +33,7 @@
     },
     mounted () {
       this.video = this.$refs['video']
-      // this.video.play()
+      this.video.play()
     },
     methods: {
     }

@@ -23,8 +23,14 @@ let api = {
         headers: {
           Authorization: 'Bearer ' + this.getToken()
         }
+      },
+      succCallBack (res) {
+        window.localStorage.selfId = res.data.data.id
       }
     })
+  },
+  getSelfId () {
+    return window.localStorage.selfId
   },
   getToken () {
     return window.localStorage.token
@@ -83,11 +89,47 @@ let api = {
       }
     })
   },
+  // 获取房间信息
+  getRoomInfo (id) {
+    return ajax('room/' + id, 'get')
+  },
+  // 获取在线用户列表
+  getOnlineUsers (id) {
+    return ajax('room/' + id + '/online_users', 'get')
+  },
   // 发送信息
   sendMessage (roomId, msg) {
     return ajax('room/' + roomId + '/send_message', 'post', {
       body: {
         msg
+      },
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
+        }
+      }
+    })
+  },
+  // 发送对象给host
+  sendObj2Host (roomId, type, obj) {
+    return ajax('room/' + roomId + '/send_obj', 'post', {
+      body: {
+        type,
+        obj: JSON.stringify(obj)
+      },
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
+        }
+      }
+    })
+  },
+  // 发送应答
+  sendAnswer (userId, answer) {
+    return ajax('rooms/send_answer', 'post', {
+      body: {
+        user_id: userId,
+        answer: JSON.stringify(answer)
       },
       options: {
         headers: {

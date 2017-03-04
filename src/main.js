@@ -11,7 +11,6 @@ import 'element-theme-default/lib/loading.css'
 import ElLoading from 'element-loading'
 Vue.use(ElLoading)
 
-
 import TFooter from './components/TFooter'
 Vue.component(TFooter.name, TFooter)
 
@@ -29,6 +28,7 @@ import * as filters from './filters.js'
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
 import io from 'socket.io-client'
 window.io = io
 import Echo from 'laravel-echo'

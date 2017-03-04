@@ -10,7 +10,7 @@
       <i class="iconfont icon-triangle"></i>
       <div class="content">
         <a href="#" class="face" :title="info.name"><img :src="info.avatar.l" :title="info.name"/></a>
-        <p class="uname">{{info.name}}</p>
+        <p class="uname">{{info.real_name}}({{info.name}})</p>
         <div class="member-menu">
           <ul>
             <li><a href="javascript:;">个人中心</a></li>

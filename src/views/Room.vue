@@ -3,18 +3,18 @@
     <div class="container">
       <header class="room-hd">
         <div class="host-pic">
-          <img title="陶炜" src="http://static.hdslb.com/live-static/live-room/images/gift-section/gift-39.gif?12cc11">
+          <img :title="roomInfo.user.real_name" :src="roomInfo.user.avatar.l">
         </div>
-        <div class="host-title">上波分 美滋滋</div>
+        <div class="host-title">{{roomInfo.title}}</div>
         <div class="detail">
-          <span class="user" title="陶炜">陶炜</span>
-          <span class="p-num" title="在线人数：102人"><i class="iconfont icon-user"></i>102</span>
-          <span class="state" title="已开始：102分钟"><i class="iconfont icon-time"></i>100分钟</span>
+          <span class="user" :title="roomInfo.user.real_name">{{roomInfo.user.real_name}}</span>
+          <span class="p-num" :title="'在线人数：' + roomInfo.online_user_number + '人'"><i class="iconfont icon-user"></i>{{roomInfo.online_user_number}}</span>
+          <span class="state"><i class="iconfont icon-time"></i>{{roomInfo.last_open_time | startedTime}}</span>
         </div>
       </header>
       <div class="main">
         <div class="host-video">
-          <TVideo :src="localVideoSrc"></TVideo>
+          <TVideo :src="hostVideoSrc"></TVideo>
         </div>
         <div class="chat hidden-xs hidden-sm">
           <header>
@@ -23,21 +23,31 @@
           </header>
           <div v-if="sideIsChat" class="chat-box">
             <ul ref="cList" class="chat-list">
-              <li v-for="item in chatList"><a href="#" class="name">{{item.real_name}}：</a>{{item.message}}</li>
+              <li v-for="item in chatList"><a href="#" target="_blank" class="name">{{item.real_name}}：</a>{{item.message}}</li>
             </ul>
             <div class="ctrl-panel">
               <SendBox @send="sendMsg" placeholder="请输入弹幕DA☆ZE～"></SendBox>
             </div>
           </div>
           <div v-else class="user-list-box">
-
+            <ul>
+              <li v-for="user in userList">
+                <a href="#" target="_blank"><img :src="user.avatar.is"> <span>{{user.real_name}}</span></a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
       <div class="notice hidden-xs hidden-sm">
-        我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单我打算看的距离喀什的卡拉时间的卡上来看大开杀戒道路喀什角动量喀什大肆夸奖的坷拉三季稻阿斯利康大家咯楼上单
+        {{roomInfo.notice}}
       </div>
     </div>
+    <!--本地视频-->
+    <DragBox>
+      <VideoBox tagTitle="me">
+        <video autoplay muted class="local_video" :src="localVideoSrc"></video>
+      </VideoBox>
+    </DragBox>
     <TFooter></TFooter>
   </div>
 </template>
@@ -48,8 +58,8 @@
   import TVideo from '../components/TVideo'
   import SendBox from '../components/SendBox'
   import Panel from '../components/Panel'
-  import webRtc from '../webRtc'
   import api from '../api'
+  import NormalWebRtc from '../webRtc/NormalWebRtc'
   export default {
     name: 'room',
     components: {
@@ -58,22 +68,47 @@
     data () {
       return {
         localVideoSrc: null,
+        hostVideoSrc: null,
         sideIsChat: true,
-        chatList: []
+        chatList: [],
+        userList: [],
+        roomInfo: {
+          user: {
+            avatar: {}
+          }
+        }
       }
     },
     methods: {
       sendMsg (msg) {
         api.sendMessage(this.$route.params.id, msg)
+      },
+      getUserList () {
+        api.getOnlineUsers(this.$route.params.id).then(res => {
+          this.userList = res.data.data
+        })
       }
     },
     beforeDestroy () {
     },
     mounted () {
-      webRtc.getLocalCameraStreams().then(src => {
+      let normalWebRtc = new NormalWebRtc(this.$route.params.id, this.$echo)
+      normalWebRtc.$on('localStream', src => {
         this.localVideoSrc = src
       })
-      this.$echo.join('chat-room.1')
+      normalWebRtc.$on('host_video', src => {
+        this.hostVideoSrc = src
+      })
+      this.$echo.join('chat-room.' + this.$route.params.id)
+      .here(() => {
+        // 更新在线用户列表
+        this.getUserList()
+        api.getRoomInfo(this.$route.params.id).then(res => {
+          this.roomInfo = res.data.data
+        })
+      })
+      .joining(this.getUserList)
+      .leaving(this.getUserList)
       .listen('ChatMessageWasReceived', (e) => {
         this.chatList.push(e)
         let cList = this.$refs['cList']
@@ -84,6 +119,9 @@
 </script>
 
 <style lang="less" scoped>
+  .local_video{
+    width: 300px;
+  }
   .room-hd {
     height: 77px;
     padding: 7px;
@@ -171,6 +209,28 @@
         display: flex;
         flex-direction: column;
         background-color: #fff;
+        ul{
+          padding: 0;
+          margin: 0;
+          li:hover{
+            background-color: #f9f9f9;
+          }
+          a{
+            padding: 10px;
+            text-decoration: none;
+            color: #666;
+            display: flex;
+            img{
+              width: 25px;
+              height: 25px;
+            }
+            span{
+              margin-left: 10px;
+              flex: 1;
+              line-height: 25px;
+            }
+          }
+        }
       }
       .chat-box{
         flex: 1;

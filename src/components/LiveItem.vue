@@ -11,7 +11,7 @@
         <h3><router-link :title="room.title" tag="a" :to="{ name: 'room', params: { id: room.id }}">{{room.title}}</router-link></h3>
         <a href="#" :title="room.user.real_name"><img :src="room.user.avatar.is">{{room.user.real_name}}</a>
         <span>
-          <span class="p-num" :title="'在线人数：' + room.online_number + '人'"><i class="iconfont icon-user"></i>{{room.online_number}}</span>
+          <span class="p-num" :title="'在线人数：' + room.online_user_number + '人'"><i class="iconfont icon-user"></i>{{room.online_user_number}}</span>
           <span class="state"><i class="iconfont icon-time"></i>{{room.last_open_time | startedTime}}</span>
         </span>
       </footer>
