@@ -67,14 +67,6 @@
         }
       }
     },
-    watch: {
-      'room.is_custom_cover' () {
-        this.$updataIscroll()
-      },
-      'room.need_password' () {
-        this.$updataIscroll()
-      }
-    },
     components: {
       Panel, TButton, TSwitch
     },

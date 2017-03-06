@@ -3,7 +3,6 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.http.options.root = 'http://192.168.7.239:8080/api'
 Vue.http.options.emulateJSON = true
-
 let api = {
   // 登录
   login (name, password) {
@@ -57,6 +56,10 @@ let api = {
       },
       succCallBack (res) {
         window.localStorage.token = res.data.token
+      },
+      errCallBack (res) {
+        Vue.prototype.$message('身份信息过期，请重新登录')
+        Vue.prototype.$showLogin()
       }
     })
   },
@@ -168,17 +171,20 @@ function ajax (url, type, options) {
       }
     }, res => {
       // 出错了
+      if (res.status === 401) {
+        if (res.data.code === 401.1) {
+          // token 过期 请求refreshToken
+          api.refreshToken()
+        }
+      }
       if (res.data !== null && res.data.message !== null) {
-        // Vue.prototype.$message({
-        //   showClose: true,
-        //   message: res.data.message,
-        //   type: 'error'
-        // })
+        Vue.prototype.$message(res.data.message)
         reject(res)
         if (options.errCallBack !== undefined) {
           options.errCallBack(res)
         }
       } else {
+        Vue.prototype.$message('网络错误')
         reject(res)
       }
     })

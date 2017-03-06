@@ -7,7 +7,7 @@
         </div>
         <div class="rooms">
           <h3>历史会议</h3>
-          <LiveItem :room="room" v-for="room in closeRooms"></LiveItem>
+          <LiveItem disabled :room="room" v-for="room in closeRooms"></LiveItem>
         </div>
       </div>
     <TFooter></TFooter>
@@ -31,11 +31,9 @@
     mounted () {
       api.getRooms(1).then(res => {
         this.startRooms = res.data.data
-        this.$updataIscroll()
       })
       api.getRooms(0).then(res => {
         this.closeRooms = res.data.data
-        this.$updataIscroll()
       })
     }
   }

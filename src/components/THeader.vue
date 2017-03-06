@@ -1,6 +1,5 @@
 <template>
   <div class="t-header">
-    <Login v-model="showLogin" @logged_in="loggedIn"></Login>
     <header>
       <div class="container content">
         <a href="#/home" class="logo"><img src="../assets/logo.png"><span>视频会议室</span></a>
@@ -11,15 +10,15 @@
         <span class="right">
           <div class="start">
             <i class="iconfont icon-kaibo"></i>
-            <router-link :to="{name: 'createRoom'}" tag="a">开会</router-link>
+            <a @click="startMeet" href="javascript:;">开会</a>
           </div>
-          <div class="un-login-btn" v-if="me == null">
+          <div class="un-login-btn" v-if="$root.me == null">
             <i class="iconfont icon-user"></i>
-            <a class="clickstat" href="javascript:;" @click="showLogin = true">登录</a>
+            <a class="clickstat" href="javascript:;" @click="$showLogin">登录</a>
             <i class="cut">|</i>
             <a href="#">注册</a>
           </div>
-          <UserInfo @log_out="logOut" :info="me" v-else></UserInfo>
+          <UserInfo @log_out="logOut" :info="$root.me" v-else></UserInfo>
         </span>
       </div>
     </header>
@@ -27,33 +26,34 @@
 </template>
 
 <script>
-  import Login from './Login'
   import api from '../api'
   import UserInfo from './UserInfo'
   export default {
     name: 'THeader',
     data () {
       return {
-        showLogin: false,
-        me: null
       }
     },
     components: {
-      Login, UserInfo
+      UserInfo
     },
     mounted () {
       if (api.loggedIn()) {
         api.getMe().then(res => {
-          this.loggedIn(res.data.data)
+          this.$root.me = res.data.data
         })
       }
     },
     methods: {
-      loggedIn (me) {
-        this.me = me
-      },
       logOut () {
-        this.me = null
+        this.$root.me = null
+      },
+      startMeet () {
+        if (this.$root.me && this.$root.me.room_id !== '') {
+          this.$router.push({name: 'host', params: {id: this.$root.me.room_id}})
+        } else {
+          this.$router.push({name: 'createRoom'})
+        }
       }
     }
   }

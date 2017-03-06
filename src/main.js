@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App'
-import router from './router'
 import 'webrtc-adapter'
 import 'normalize.css'
 
@@ -19,15 +18,17 @@ import ElUpload from 'element-upload'
 import 'element-theme-default/lib/icon.css'
 Vue.use(ElUpload)
 
-import TIsroll from './components/TIsrocll'
-Vue.use(TIsroll)
-
 import * as filters from './filters.js'
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+import Login from 'components/Login'
+Vue.use(Login)
+
+import Message from 'components/Message'
+Vue.use(Message)
 
 import io from 'socket.io-client'
 window.io = io
@@ -42,9 +43,22 @@ Vue.prototype.$echo = new Echo({
     }
   }
 })
+import router from './router'
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!api.loggedIn()) {
+      // 需要登录
+      Vue.prototype.$message('请先登录')
+      Vue.prototype.$showLogin()
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 const nprogress = new NProgress({ parent: '.nprogress-container' })
-
-new Vue({
+window.app = new Vue({
   router,
   nprogress,
   ...App

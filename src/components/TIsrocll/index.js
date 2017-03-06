@@ -1,4 +1,4 @@
-import TIscroll from './index.vue'
+import TIscroll from './TIsrocll.vue'
 
 export default {
   install (Vue, options = {}) {

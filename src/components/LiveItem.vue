@@ -1,14 +1,16 @@
 <template>
   <div class="live-item-wapper col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <div class="live-item">
-      <router-link class="cover" tag="a" :to="{ name: 'room', params: { id: room.id }}">
+    <div :class="{'disabled': disabled}" class="live-item">
+      <a class="cover" @click="goRoom">
         <div class="mask">
           <i class="iconfont icon-play"></i>
         </div>
         <img :src="room.cover.r" :title="room.title"/>
-      </router-link>
+      </a>
       <footer>
-        <h3><router-link :title="room.title" tag="a" :to="{ name: 'room', params: { id: room.id }}">{{room.title}}</router-link></h3>
+        <h3>
+          <a href="javascript:;" :title="room.title" @click="goRoom">{{room.title}}</a>
+        </h3>
         <a href="#" :title="room.user.real_name"><img :src="room.user.avatar.is">{{room.user.real_name}}</a>
         <span>
           <span class="p-num" :title="'在线人数：' + room.online_user_number + '人'"><i class="iconfont icon-user"></i>{{room.online_user_number}}</span>
@@ -22,13 +24,21 @@
 <script>
     export default {
       props: {
-        room: Object
+        room: Object,
+        disabled: Boolean
       },
       data () {
         return {
         }
       },
       components: {
+      },
+      methods: {
+        goRoom () {
+          if (!this.disabled) {
+            this.$router.push({name: 'room', params: { id: this.room.id }})
+          }
+        }
       }
     }
 </script>
@@ -37,20 +47,23 @@
 .live-item-wapper{
   padding: 10px;
 }
+.disabled *, .disabled{
+  cursor: not-allowed;
+}
 @media(max-width:768px){
   .live-item-wapper{
     padding: 5px;
   }
 }
 .live-item{
-  &:hover{
+  &:not(.disabled):hover{
       border-bottom-color: transparent;
       box-shadow: 2px 2px 4px rgba(0,0,0,.25)
   }
-  &:hover >.cover > img{
+  &:not(.disabled):hover >.cover > img{
     transform: scale(1.2);
   }
-  &:hover >.cover > .mask{
+  &:not(.disabled):hover >.cover > .mask{
     opacity: 1;
   }
   transition: box-shadow .3s, border-bottom .3s;

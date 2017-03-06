@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="login" v-if="value">
+    <div class="login" v-show="visable">
       <div class="mask"></div>
       <div v-loading="loading" class="login-box">
         <div class="login-hd">
@@ -25,32 +25,38 @@
   </transition>
 </template>
 <script>
-  import TButton from '../components/TButton'
-  import api from '../api'
+  import TButton from '../TButton'
+  import api from '../../api'
   export default{
     name: 'Login',
-    props: {
-      value: Boolean
-    },
     data () {
       return {
-        currentValue: this.value,
+        visable: false,
         name: '',
         password: '',
         loading: false
       }
     },
+    mounted () {
+      this.visable = true
+    },
     methods: {
+      destroyElement () {
+        this.$el.removeEventListener('transitionend', this.destroyElement)
+        this.$el.parentNode.removeChild(this.$el)
+        this.$destroy(true)
+      },
       close () {
-        this.currentValue = false
+        this.visable = false
+        this.$el.addEventListener('transitionend', this.destroyElement)
       },
       login () {
         this.loading = true
         api.login(this.name, this.password).then(res => {
           this.loading = false
           api.getMe().then(res => {
-            this.currentValue = false
-            this.$emit('logged_in', res.data.data)
+            window.app.me = res.data.data
+            this.close()
           })
         }, res => {
           this.loading = false
@@ -59,19 +65,6 @@
     },
     components: {
       TButton
-    },
-    watch: {
-      'value' (val) {
-        if (this.currentValue !== val) {
-          this.currentValue = val
-        }
-      },
-      'currentValue' (newVal, oldVal) {
-        if (newVal !== oldVal) {
-          this.$emit('change', newVal)
-          this.$emit('input', newVal)
-        }
-      }
     }
   }
 </script>

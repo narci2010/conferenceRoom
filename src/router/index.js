@@ -19,17 +19,20 @@ export default new Router({
     {
       path: '/room/:id',
       name: 'room',
-      component: Room
+      component: Room,
+      meta: { requiresAuth: true }
     },
     {
       path: '/create-room',
       name: 'createRoom',
-      component: CreateRoom
+      component: CreateRoom,
+      meta: { requiresAuth: true }
     },
     {
       path: '/host/:id',
       name: 'host',
-      component: Host
+      component: Host,
+      meta: { requiresAuth: true }
     },
     {
       path: '*',

@@ -2,11 +2,9 @@
   <div id="app">
     <nprogress-container></nprogress-container>
     <THeader></THeader>
-    <!--<TIScroll>-->
-      <transition v-on:after-leave="$updataIscroll" :name="routerTransitionName">
+      <transition :name="routerTransitionName">
         <router-view class="view"></router-view>
       </transition>
-    <!--</TIScroll>-->
   </div>
 </template>
 
@@ -20,7 +18,8 @@ export default {
   },
   data () {
     return {
-      routerTransitionName: 'slide-left'
+      routerTransitionName: 'slide-left',
+      me: null
     }
   },
   watch: {
@@ -72,7 +71,7 @@ export default {
     position: fixed!important;
   }
   .view {
-    top: 60px;
+    top: 70px;
     position: absolute;
     width: 100%;
     transition: all .5s cubic-bezier(.55,0,.1,1);
