@@ -2,9 +2,11 @@
   <div id="app">
     <nprogress-container></nprogress-container>
     <THeader></THeader>
-      <transition :name="routerTransitionName">
-        <router-view class="view"></router-view>
-      </transition>
+    <transition :name="routerTransitionName">
+      <router-view class="view"></router-view>
+    </transition>
+    <div class="local-volume"></div>
+    <div class="local"></div>
   </div>
 </template>
 
@@ -56,6 +58,14 @@ export default {
   *{
     user-select: initial!important;
     box-sizing: border-box;
+  }
+  .local-volume{
+    position: fixed;
+    bottom: 0;
+    width: 3px;
+    left: 0;
+    z-index: 999;
+    background-color: #007fff;
   }
   video{
     transform: scaleX(-1);
@@ -362,11 +372,11 @@ export default {
   }
   @font-face {
     font-family: 'iconfont';  /* project id 233303 */
-    src: url('//at.alicdn.com/t/font_ngukuepd9e50o1or.eot');
-    src: url('//at.alicdn.com/t/font_ngukuepd9e50o1or.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_ngukuepd9e50o1or.woff') format('woff'),
-    url('//at.alicdn.com/t/font_ngukuepd9e50o1or.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_ngukuepd9e50o1or.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_fx4rsuxdtv5cdi.eot');
+    src: url('//at.alicdn.com/t/font_fx4rsuxdtv5cdi.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_fx4rsuxdtv5cdi.woff') format('woff'),
+    url('//at.alicdn.com/t/font_fx4rsuxdtv5cdi.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_fx4rsuxdtv5cdi.svg#iconfont') format('svg');
   }
   .iconfont {
     font-family:"iconfont" !important;
@@ -388,4 +398,5 @@ export default {
   .icon-triangle:before {content: "\e609";}
   .icon-user-list:before {content: "\e632";}
   .icon-chat:before {content: "\e635";}
+  .icon-password:before {content: "\e61c";}
 </style>

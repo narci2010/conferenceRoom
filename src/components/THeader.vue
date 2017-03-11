@@ -4,7 +4,7 @@
       <div class="container content">
         <a href="#/home" class="logo"><img src="../assets/logo.png"><span>视频会议室</span></a>
         <span class="search hidden-xs">
-          <input placeholder="房间号或房间名" type="text">
+          <input autocomplete="off" placeholder="房间号或房间名" type="text">
           <button type="button" class="iconfont icon-sousuo search-btn"></button>
         </span>
         <span class="right">

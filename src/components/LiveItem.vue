@@ -3,7 +3,7 @@
     <div :class="{'disabled': disabled}" class="live-item">
       <a class="cover" @click="goRoom">
         <div class="mask">
-          <i class="iconfont icon-play"></i>
+          <i class="iconfont" :class="{'icon-play': room.need_password === 0,'icon-password': room.need_password === 1}"></i>
         </div>
         <img :src="room.cover.r" :title="room.title"/>
       </a>
@@ -14,7 +14,11 @@
         <a href="#" :title="room.user.real_name"><img :src="room.user.avatar.is">{{room.user.real_name}}</a>
         <span>
           <span class="p-num" :title="'在线人数：' + room.online_user_number + '人'"><i class="iconfont icon-user"></i>{{room.online_user_number}}</span>
-          <span class="state"><i class="iconfont icon-time"></i>{{room.last_open_time | startedTime}}</span>
+          <span class="state">
+            <i class="iconfont icon-time"></i>
+            <template v-if="!disabled">{{room.last_open_time | startedTime}}</template>
+            <template v-else>{{room.last_open_time | onlyDate}}</template>
+          </span>
         </span>
       </footer>
     </div>
@@ -36,7 +40,14 @@
       methods: {
         goRoom () {
           if (!this.disabled) {
-            this.$router.push({name: 'room', params: { id: this.room.id }})
+            if (this.room.need_password === 1) {
+              // 需要密码
+              this.$showInputPassWord(this.room.id, () => {
+                this.$router.push({name: 'room', params: { id: this.room.id }})
+              })
+            } else {
+              this.$router.push({name: 'room', params: { id: this.room.id }})
+            }
           }
         }
       }
@@ -56,6 +67,7 @@
   }
 }
 .live-item{
+  cursor: pointer;
   &:not(.disabled):hover{
       border-bottom-color: transparent;
       box-shadow: 2px 2px 4px rgba(0,0,0,.25)

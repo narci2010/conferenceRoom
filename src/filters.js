@@ -18,6 +18,9 @@ export function startedTime (time) {
 
 // 只显示日期
 export function onlyDate (time) {
+  if (typeof time === 'string') {
+    return time.substr(0, 10)
+  }
   const d = new Date(time * 1000)
   return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
 }

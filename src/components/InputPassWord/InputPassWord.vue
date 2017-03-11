@@ -1,23 +1,19 @@
 <template>
   <transition name="fade">
-    <div class="login" v-show="visible">
+    <div class="input-password" v-show="visible">
       <div class="mask"></div>
-      <div v-loading="loading" class="login-box">
-        <div class="login-hd">
+      <div v-loading="loading" class="input-password-box">
+        <div class="input-password-hd">
           <div class="close" @click="close"><i class="iconfont icon-close"></i></div>
-          <h3>登录</h3>
+          <h3>输入房间密码</h3>
         </div>
         <div class="body">
           <div class="input">
-            <i class="iconfont icon-user"></i>
-            <input v-model="name" type="text" placeholder="请输入用户名"/>
-          </div>
-          <div class="input">
             <i class="iconfont icon-pwd"></i>
-            <input v-model="password" @keydown.enter="login" type="password" placeholder="请输入密码"/>
+            <input autocomplete="off" @keydown.enter="enter" v-model="password" type="password" placeholder="请输入房间密码"/>
           </div>
           <div class="input">
-            <TButton @click.native="login">登录</TButton>
+            <TButton @click.native="enter">进入</TButton>
           </div>
         </div>
       </div>
@@ -28,13 +24,14 @@
   import TButton from '../TButton'
   import api from '../../api'
   export default{
-    name: 'Login',
+    name: 'inputPassWord',
     data () {
       return {
         visible: false,
-        name: '',
+        loading: false,
         password: '',
-        loading: false
+        rid: 0,
+        succCallback: null
       }
     },
     mounted () {
@@ -50,16 +47,10 @@
         this.visible = false
         this.$el.addEventListener('transitionend', this.destroyElement)
       },
-      login () {
-        this.loading = true
-        api.login(this.name, this.password).then(res => {
-          this.loading = false
-          api.getMe().then(res => {
-            window.app.me = res.data.data
-            this.close()
-          })
-        }, res => {
-          this.loading = false
+      enter () {
+        api.inputRoomPassWord(this.rid, this.password).then(res => {
+          this.visible = false
+          this.succCallback()
         })
       }
     },
@@ -75,7 +66,7 @@
       width: 100%;
     }
   }
-  .login{
+  .input-password{
     position: fixed;
     top: 0;
     bottom: 0;
@@ -91,20 +82,20 @@
       left: 0;
       right: 0;
     }
-    .login-box{
+    .input-password-box{
       position: absolute;
       top: 50%;
       left: 50%;
       z-index: 1001;
       transform: translate(-50%,-50%);
       width: 400px;
-      height: 300px;
+      height: 255px;
       background-color: #fff;
       box-shadow: 0 0 4px rgba(0,0,0,.15);
       visibility: visible;
       border-radius: 4px;
       border: 1px solid rgb(255, 255, 255);
-      >.login-hd{
+      >.input-password-hd{
         padding-left: 50px;
         padding-top: 15px;
         border-bottom: 1px #E9E9E9 solid;
@@ -136,7 +127,7 @@
           &::after{
             content: '';
             position: absolute;
-            width: 50px;
+            width: 125px;
             height: 3px;
             display: block;
             bottom: -3px;
@@ -148,7 +139,7 @@
     }
     .body{
       padding: 30px 50px;
-      .input{
+	  .input{
         margin-bottom: 20px;
         position: relative;
         >.iconfont{
@@ -157,10 +148,6 @@
           left: 8px;
           color: #BABABA;
           font-size: 22px;
-          &.icon-user{
-            font-size: 19px;
-            top: 8px;
-          }
         }
         input{
           color: #444;

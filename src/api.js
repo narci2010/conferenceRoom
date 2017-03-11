@@ -3,6 +3,10 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.http.options.root = 'http://192.168.7.239:8080/api'
 Vue.http.options.emulateJSON = true
+import io from 'socket.io-client'
+window.io = io
+import Echo from 'laravel-echo'
+
 let api = {
   // 登录
   login (name, password) {
@@ -25,6 +29,18 @@ let api = {
       },
       succCallBack (res) {
         window.localStorage.selfId = res.data.data.id
+        api.createEcho()
+      }
+    })
+  },
+  createEcho () {
+    Vue.prototype.$echo = new Echo({
+      broadcaster: 'socket.io',
+      host: 'http://192.168.7.239:6001',
+      auth: {
+        headers: {
+          'Authorization': 'Bearer ' + api.getToken()
+        }
       }
     })
   },
@@ -82,6 +98,42 @@ let api = {
       }
     })
   },
+  // 修改房间信息
+  modifyRoom (id, room) {
+    let temp = {...room}
+    temp.is_custom_cover = temp.is_custom_cover ? '1' : '0'
+    temp.need_password = temp.need_password ? '1' : '0'
+    return ajax('rooms/' + id, 'put', {
+      body: {
+        ...temp
+      },
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
+        }
+      }
+    })
+  },
+  // 开播
+  startLive () {
+    return ajax('rooms/start_live', 'get', {
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
+        }
+      }
+    })
+  },
+  // 关播
+  closeLive () {
+    return ajax('rooms/close_live', 'get', {
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
+        }
+      }
+    })
+  },
   // 获取房间列表
   getRooms (status) {
     return ajax('rooms', 'get', {
@@ -89,6 +141,30 @@ let api = {
         params: {
           status
         }
+      }
+    })
+  },
+  inputRoomPassWord (id, password) {
+    return ajax('room/' + id + '/input_password', 'post', {
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
+        }
+      },
+      body: {
+        password
+      }
+    })
+  },
+  uploadPicture (pic) {
+    return ajax('ajax_upload_picture', 'post', {
+      options: {
+        headers: {
+          Authorization: 'Bearer ' + this.getToken()
+        }
+      },
+      body: {
+        file: pic
       }
     })
   },

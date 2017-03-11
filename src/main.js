@@ -26,29 +26,21 @@ Object.keys(filters).forEach(key => {
 })
 import Login from 'components/Login'
 Vue.use(Login)
+import InputPassWord from 'components/InputPassWord'
+Vue.use(InputPassWord)
 
 import Message from 'components/Message'
 Vue.use(Message)
-
-import io from 'socket.io-client'
-window.io = io
-import Echo from 'laravel-echo'
 import api from './api'
-Vue.prototype.$echo = new Echo({
-  broadcaster: 'socket.io',
-  host: 'http://192.168.7.239:6001',
-  auth: {
-    headers: {
-      'Authorization': 'Bearer ' + api.getToken()
-    }
-  }
-})
 import router from './router'
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!api.loggedIn()) {
       // 需要登录
-      Vue.prototype.$message('请先登录')
+      Vue.prototype.$message({
+        type: 'info',
+        msg: '请先登录'
+      })
       Vue.prototype.$showLogin()
     } else {
       next()

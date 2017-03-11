@@ -16,7 +16,7 @@
     <!--本地视频-->
     <DragBox>
       <VideoBox tagTitle="me">
-        <video autoplay muted class="local_video" :src="localVideoSrc"></video>
+        <video autoplay muted class="local_video" id="local" :src="localVideoSrc"></video>
       </VideoBox>
     </DragBox>
   </div>
@@ -35,7 +35,10 @@
       return {
         localVideoSrc: null,
         normals: {},
-        chatList: []
+        chatList: [],
+        hostWebRtc: null,
+        roomInfo: {},
+        timer: null
       }
     },
     components: {
@@ -44,22 +47,64 @@
     methods: {
       sendMsg (msg) {
         api.sendMessage(this.$route.params.id, msg)
+      },
+      dataURLtoBlob (dataurl) {
+        let arr = dataurl.split(',')
+        let mime = arr[0].match(/:(.*?);/)[1]
+        let bstr = window.atob(arr[1])
+        let n = bstr.length
+        let u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        return new window.Blob([u8arr], {type: mime})
+      },
+      captureImage () {
+        let video = document.querySelector('#local')
+        let canvas = document.createElement('canvas')
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+        api.uploadPicture(this.dataURLtoBlob(canvas.toDataURL())).then(res => {
+          api.modifyRoom(this.$router.params.id, {
+            'current_frame_cover': res.picture
+          })
+        })
       }
     },
+    beforeDestroy () {
+      if (this.timer) {
+        window.clearInterval(this.timer)
+      }
+      api.closeLive()
+      this.hostWebRtc.closeLocalCameraStream()
+    },
     mounted () {
-      console.log(this)
-      let hostWebRtc = new HostWebRtc(this.$route.params.id, this.$echo)
-      hostWebRtc.$on('localStream', stream => {
+      api.startLive()
+      api.getRoomInfo(this.$route.params.id).then(res => {
+        this.roomInfo = res.data.data
+        if (!this.roomInfo.is_custom_cover === false) {
+          this.timer = setInterval(() => {
+            // 上传封面
+            console.log(this.captureImage())
+          }, 10000)
+        }
+      })
+      if (this.$echo === undefined) {
+        api.createEcho()
+      }
+      this.hostWebRtc = new HostWebRtc(this.$route.params.id, this.$echo)
+      this.hostWebRtc.$on('localStream', stream => {
         this.localVideoSrc = stream
       })
-      hostWebRtc.$on('join', (uid, normalUser) => {
+      this.hostWebRtc.$on('join', (uid, normalUser) => {
         this.normals[uid] = normalUser
         this.$forceUpdate()
       })
-      hostWebRtc.$on('add_iceCandidate', (uid, iceCandidate) => {
+      this.hostWebRtc.$on('add_iceCandidate', (uid, iceCandidate) => {
         this.normals[uid].pc.addIceCandidate(new window.RTCIceCandidate(iceCandidate))
       })
-      hostWebRtc.$on('onaddstream_src', (uid, src) => {
+      this.hostWebRtc.$on('onaddstream_src', (uid, src) => {
         this.normals[uid].src = src
         this.$forceUpdate()
       })
@@ -69,12 +114,6 @@
           let cList = this.$refs['cList']
           cList.scrollTop = cList.scrollHeight
         })
-//      setTimeout(() => {
-//        this.$updataIscroll(window.innerHeight - 50)
-//      }, 10)
-//      window.onresize = () => {
-//        this.$updataIscroll(window.innerHeight - 50)
-//      }
     }
   }
 </script>

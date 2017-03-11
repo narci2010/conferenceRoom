@@ -76,7 +76,8 @@
           user: {
             avatar: {}
           }
-        }
+        },
+        normalWebRtc: null
       }
     },
     methods: {
@@ -90,13 +91,20 @@
       }
     },
     beforeDestroy () {
+      this.normalWebRtc.closeLocalCameraStream()
     },
     mounted () {
-      let normalWebRtc = new NormalWebRtc(this.$route.params.id, this.$echo)
-      normalWebRtc.$on('localStream', src => {
+      api.getRoomInfo(this.$route.params.id).then(res => {
+        this.roomInfo = res.data.data
+      })
+      if (this.$echo === undefined) {
+        api.createEcho()
+      }
+      this.normalWebRtc = new NormalWebRtc(this.$route.params.id, this.$echo)
+      this.normalWebRtc.$on('localStream', src => {
         this.localVideoSrc = src
       })
-      normalWebRtc.$on('host_video', src => {
+      this.normalWebRtc.$on('host_video', src => {
         this.hostVideoSrc = src
       })
       this.$echo.join('chat-room.' + this.$route.params.id)
